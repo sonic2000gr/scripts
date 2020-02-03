@@ -101,7 +101,9 @@ check_install "ifupdown2"
 
 echo -n "Uninstalling incompatible software..."
 
-aptitude -q -y $APTOPTIONS purge firmware-bnx2x firmware-realtek firmware-linux firmware-linux-free firmware-linux-nonfree >>proxmox.log 2>&1
+if [ -z "$APTOPTIONS" ]; then
+  aptitude -q -y purge firmware-bnx2x firmware-realtek firmware-linux firmware-linux-free firmware-linux-nonfree >>proxmox.log 2>&1
+fi
 
 echo "OK"
 
