@@ -89,7 +89,7 @@ else
   exit 1
 fi
 
-echo -n "Updating the debin system..."
+echo -n "Updating the debian system..."
 
 apt-get $APTOPTIONS -y update >>proxmox.log 2>&1
 apt-get $APTOPTIONS -y upgrade >>proxmox.log 2>&1
