@@ -11,7 +11,7 @@ LOGFILE=proxmox.log
 # Set DRYRUN=1
 # to test the script without actually installing anything
 
-DRYRUN=1
+DRYRUN=0
 
 if [ $DRYRUN -eq 1 ]; then
   APTOPTIONS="--dry-run"
@@ -59,41 +59,11 @@ read -p "press enter to continue"
 clear
 echo "Checking and installing some prerequisites..."
 
-check_install "aptitude"
-check_install "wget"
-check_install "ntp"
-
-echo -n "Adding proxmox sources..."
-
-if [ -z "$APTOPTIONS" ]; then
-  echo "deb http://download.proxmox.com/debian/pve buster pve-no-subscription" > /etc/apt/sources.list.d/pve-install-repo.list 
-fi
-
-if [ $? -eq 0 ]; then
-  echo "OK"
-else
-  echo "Failed!"
-  exit 1
-fi 
-
-echo -n "Adding proxmox keys..."
-
-if [ -z "$APTOPTIONS" ]; then
-  wget http://download.proxmox.com/debian/proxmox-ve-release-6.x.gpg -O /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg >>proxmox.log 2>&1
-fi
-
-if [ $? -eq 0 ]; then
-  echo "OK"
-else
-  echo "Failed!"
-  exit 1
-fi
-
 echo -n "Updating the debian system..."
 
-apt-get $APTOPTIONS -y update >>proxmox.log 2>&1
-apt-get $APTOPTIONS -y upgrade >>proxmox.log 2>&1
-apt-get $APTOPTIONS -y dist-upgrade >>proxmox.log 2>&1
+apt-get $APTOPTIONS -y update 
+apt-get $APTOPTIONS -y upgrade 
+apt-get $APTOPTIONS -y dist-upgrade 
 
 echo "Done."
 
